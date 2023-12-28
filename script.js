@@ -12,13 +12,19 @@ function gameBoard(){
 
     const updateBoard = (index, token)=>{
         let [i,j] = index;
-        board[i][j] = token;
+        // check if game is not won
+        if (winCondition() === false);
+        // check if index is empty
+        if(board[i][j] === ""){
+            board[i][j] = token;
+        };
     };
 
     const getBoard = ()=> board;
 
     return {getBoard, updateBoard};
 };
+
 
 function player(name){
     const player1 = "Player One";
@@ -39,24 +45,27 @@ function player(name){
     return players;
 };
 
+
+function winCondition(){
+    // set condition logic for win
+    return false;
+}
+
+
 function gameController(){
     const player1 = player()[0];
     const player2 = player()[1];
     const board = gameBoard().board;
 
     // player1 goes first
-    board
+    // while game not won then update play this function to update board.upadteBoard()
+    function play(player1, selection){    
+        board.updateBoard(selection, player1.token)
+    };
+
+    while(winCondition()===true){
+        // do something
+    }
 };
 
 const game = gameController();
-
-const indexes = [0, 1];
-const token = "x";
-const [i,j] = indexes;
-
-const board = gameBoard();
-
-board.updateBoard([0, 0], "x")
-board.updateBoard([0, 1], "o")
-
-console.log(board.getBoard());
