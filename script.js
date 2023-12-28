@@ -6,18 +6,21 @@ function gameBoard(){
     for (let i=0; i<size; i++){
         board[i] = [];
         for (let j=0; j<size; j++){
-            board[i].push('cell()')
+            board[i].push("")
         }
     };
 
-    return board;
+    const updateBoard = (index, token)=>{
+        let [i,j] = index;
+        board[i][j] = token;
+    };
+
+    const getBoard = ()=> board;
+
+    return {getBoard, updateBoard};
 };
 
-// console.log(gameBoard())
-
-function player(){
-    let score = 0;
-
+function player(name){
     const player1 = "Player One";
     const player2 = "Player Two";
 
@@ -25,25 +28,35 @@ function player(){
         {
             name: player1,
             token: 'x',
+            score: 0,
         },
         {
             name: player2,
             token: 'o',
-
+            score: 0,
         }
     ];
-
     return players;
 };
 
-const player1 = player()[0];
-const player2 = player()[1];
+function gameController(){
+    const player1 = player()[0];
+    const player2 = player()[1];
+    const board = gameBoard().board;
 
-console.log(player2);
-
-function game(){
-
+    // player1 goes first
+    board
 };
 
-// const {row1} = gameBoard();
-// console.log(row1[0]);
+const game = gameController();
+
+const indexes = [0, 1];
+const token = "x";
+const [i,j] = indexes;
+
+const board = gameBoard();
+
+board.updateBoard([0, 0], "x")
+board.updateBoard([0, 1], "o")
+
+console.log(board.getBoard());
