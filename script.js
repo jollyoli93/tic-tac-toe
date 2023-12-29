@@ -1,6 +1,6 @@
 function gameBoard(){
     // 3 x 3 square 
-    size = 3;
+    const size = 3;
     const board = [];
 
     for (let i=0; i<size; i++){
@@ -13,7 +13,7 @@ function gameBoard(){
     const updateBoard = (index, token)=>{
         let [i,j] = index;
         // check if game is not won
-        if (winCondition() === false);
+        // if (winCondition() === false);
         // check if index is empty
         if(board[i][j] === ""){
             board[i][j] = token;
@@ -48,14 +48,35 @@ function player(name){
 
 function winCondition(){
     // set condition logic for win
-    return false;
-}
+    const boardFunc = gameBoard();
+    const board = boardFunc.getBoard();
+    let counter = [];
+
+    boardFunc.updateBoard([1,0], 'o');
+    boardFunc.updateBoard([1,1], 'x');
+    boardFunc.updateBoard([1,2], 'x');
+
+    // if board[0][0] board[0][1] board[0][2] === 'x' or 'o' return token
+
+    for (let i=0; i<3; i++){
+        for (let j=0; i<3; i++){
+            if (counter.length === 3) counter;
+            else if ((counter.length < 3) && (board[i][j+1] === board[i][j])){
+                counter.push(board[i][j]);
+                console.log(board[i][j])
+                }; 
+            };
+        };
+    return console.log(counter);
+};
+
+winCondition();
 
 
 function gameController(){
     const player1 = player()[0];
     const player2 = player()[1];
-    const board = gameBoard().board;
+    const board = gameBoard().getBoard();
 
     // player1 goes first
     // while game not won then update play this function to update board.upadteBoard()
@@ -68,4 +89,4 @@ function gameController(){
     }
 };
 
-const game = gameController();
+// const game = gameController();
