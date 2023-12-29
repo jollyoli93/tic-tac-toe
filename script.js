@@ -52,7 +52,10 @@ function winCondition(){
     const board = boardFunc.getBoard();
     let counter = [];
 
-    boardFunc.updateBoard([1,0], 'o');
+    let counterFlag = false;
+    if (counter.length === 3) counterFlag = true;
+
+    boardFunc.updateBoard([1,0], 'x');
     boardFunc.updateBoard([1,1], 'x');
     boardFunc.updateBoard([1,2], 'x');
 
@@ -60,14 +63,16 @@ function winCondition(){
 
     for (let i=0; i<3; i++){
         for (let j=0; i<3; i++){
-            if (counter.length === 3) counter;
-            else if ((counter.length < 3) && (board[i][j+1] === board[i][j])){
+            if (counterFlag === false &&
+                (board[i][j] === 'x'  ||
+                 board[i][j] === 'o') &&
+                (board[i][j+1] === board[i][j])
+                ){
                 counter.push(board[i][j]);
-                console.log(board[i][j])
                 }; 
             };
         };
-    return console.log(counter);
+    return console.log(counterFlag, counter.length);
 };
 
 winCondition();
