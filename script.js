@@ -15,7 +15,7 @@ function gameBoard(){
         // check if game is not won
         // if (winCondition() === false);
         // check if index is empty
-        if(board[i][j] === ""){
+        if( board[i][j] === ""){
             board[i][j] = token;
         };
     };
@@ -50,32 +50,86 @@ function winCondition(){
     // set condition logic for win
     const boardFunc = gameBoard();
     const board = boardFunc.getBoard();
-    let counter = [];
 
-    let counterFlag = false;
-    if (counter.length === 3) counterFlag = true;
-
-    boardFunc.updateBoard([1,0], 'x');
-    boardFunc.updateBoard([1,1], 'x');
-    boardFunc.updateBoard([1,2], 'x');
+    //testing
+    boardFunc.updateBoard([0,0], 'o');
+    boardFunc.updateBoard([1,0], 'o');
+    boardFunc.updateBoard([2,0], 'o');
 
     // if board[0][0] board[0][1] board[0][2] === 'x' or 'o' return token
+    function checkRows(){
+        let rows = [];
+        let flag = false;
 
-    for (let i=0; i<3; i++){
-        for (let j=0; i<3; i++){
-            if (counterFlag === false &&
-                (board[i][j] === 'x'  ||
-                 board[i][j] === 'o') &&
-                (board[i][j+1] === board[i][j])
-                ){
-                counter.push(board[i][j]);
-                }; 
+        while(flag === false)
+            {for(let i=0; i<3; i++){
+                rows.push(board[i][0], board[i][1], board[i][2]);
+
+                if (rows.every((token) => token === 'x') ||
+                    rows.every((token) => token === 'o')){
+                    flag = true;
+                    const winningRow = `Row ${i+1}`;
+                    const winningToken = board[i][0];
+
+                    return {winningRow, winningToken};
+
+                } else {
+                    rows = [];
+                }
             };
         };
-    return console.log(counterFlag, counter.length);
+    };        
+
+    function checkColumns(){
+        let columns = [];
+        let flag = false;
+
+        while(flag === false)
+            {for(let i=0; i<3; i++){
+                columns.push(board[0][i], board[1][i], board[2][i]);
+
+                if (columns.every((token) => token === 'x') ||
+                columns.every((token) => token === 'o')){
+                    flag = true;
+                    const winningColumn = `Column ${i+1}`;
+                    const winningToken = board[i][0];
+
+                    return {winningColumn, winningToken};
+
+                } else {
+                    columns = [];
+                }
+            };
+        };
+    };
+
+    // function checkDiagonals(){
+        let diagonals = [];
+        let flag = false;
+
+        while(flag === false)
+            {for(let i=0; i<3; i++){
+                diagonals.push(board[0][i], board[1][i], board[2][i]);
+
+                if (diagonals.every((token) => token === 'x') ||
+                diagonals.every((token) => token === 'o')){
+                    flag = true;
+                    const winningDiagonal = `Column ${i+1}`;
+                    const winningToken = board[i][0];
+
+                    return {winningDiagonal, winningToken};
+
+                } else {
+                    diagonals = [];
+                }
+            };
+        };
+    // };
+
+    return {checkRows, checkColumns};
 };
 
-winCondition();
+console.log(winCondition());
 
 
 function gameController(){
@@ -94,4 +148,4 @@ function gameController(){
     }
 };
 
-// const game = gameController();
+const game = gameController();
