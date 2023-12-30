@@ -53,17 +53,19 @@ function winCondition(){
 
     //testing
     boardFunc.updateBoard([0,0], 'o');
-    boardFunc.updateBoard([1,0], 'o');
-    boardFunc.updateBoard([2,0], 'o');
+    boardFunc.updateBoard([0,1], 'o');
+    boardFunc.updateBoard([0,2], 'o');
 
     // if board[0][0] board[0][1] board[0][2] === 'x' or 'o' return token
-    function checkRows(){
+    function checkStraights(){
         let rows = [];
+        let columns = [];
         let flag = false;
 
         while(flag === false)
             {for(let i=0; i<3; i++){
                 rows.push(board[i][0], board[i][1], board[i][2]);
+                columns.push(board[0][i], board[1][i], board[2][i]);
 
                 if (rows.every((token) => token === 'x') ||
                     rows.every((token) => token === 'o')){
@@ -71,8 +73,20 @@ function winCondition(){
                     const winningRow = `Row ${i+1}`;
                     const winningToken = board[i][0];
 
+                    console.log(rows);
+
                     return {winningRow, winningToken};
 
+                } else if
+                
+                (columns.every((token) => token === 'x') ||
+                columns.every((token) => token === 'o')){
+                    flag = true;
+                    const winningColumn = `Column ${i+1}`;
+                    const winningToken = board[i][0];
+                    // console.log(columns);
+
+                    return {winningColumn, winningToken};
                 } else {
                     rows = [];
                 }
@@ -80,56 +94,59 @@ function winCondition(){
         };
     };        
 
-    function checkColumns(){
-        let columns = [];
-        let flag = false;
+    // function checkColumns(){
+    //     let columns = [];
+    //     let flag = false;
 
-        while(flag === false)
-            {for(let i=0; i<3; i++){
-                columns.push(board[0][i], board[1][i], board[2][i]);
+    //     while(flag === false)
+    //         {for(let i=0; i<3; i++){
+    //             columns.push(board[0][i], board[1][i], board[2][i]);
 
-                if (columns.every((token) => token === 'x') ||
-                columns.every((token) => token === 'o')){
-                    flag = true;
-                    const winningColumn = `Column ${i+1}`;
-                    const winningToken = board[i][0];
+    //             if (columns.every((token) => token === 'x') ||
+    //             columns.every((token) => token === 'o')){
+    //                 flag = true;
+    //                 const winningColumn = `Column ${i+1}`;
+    //                 const winningToken = board[i][0];
+    //                 console.log(columns);
+    //                 return {winningColumn, winningToken};
 
-                    return {winningColumn, winningToken};
-
-                } else {
-                    columns = [];
-                }
-            };
-        };
-    };
-
-    // function checkDiagonals(){
-        let diagonals = [];
-        let flag = false;
-
-        while(flag === false)
-            {for(let i=0; i<3; i++){
-                diagonals.push(board[0][i], board[1][i], board[2][i]);
-
-                if (diagonals.every((token) => token === 'x') ||
-                diagonals.every((token) => token === 'o')){
-                    flag = true;
-                    const winningDiagonal = `Column ${i+1}`;
-                    const winningToken = board[i][0];
-
-                    return {winningDiagonal, winningToken};
-
-                } else {
-                    diagonals = [];
-                }
-            };
-        };
+    //             } else {
+    //                 columns = [];
+    //             }
+    //         };
+    //     };
     // };
 
-    return {checkRows, checkColumns};
+    // function checkDiagonals(){
+        // let diagonals = [];
+        // let flag = false;
+
+        // while(flag === false)
+        //     {for(let i=0; i<3; i++){
+        //         diagonals.push(board[0][0], board[1][1], board[2][2]);
+
+        //         if (diagonals.every((token) => token === 'x') ||
+        //         diagonals.every((token) => token === 'o')){
+        //             flag = true;
+        //             const winningDiagonal = `Column ${i+1}`;
+        //             const winningToken = board[i][0];
+
+        //             return {winningDiagonal, winningToken};
+
+        //         } else {
+        //             diagonals = [];
+        //         }
+        //     };
+        // };
+    // };
+    // checkColumns();
+    checkStraights();
+
+    return {checkStraights};
 };
 
 console.log(winCondition());
+
 
 
 function gameController(){
