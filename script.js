@@ -52,12 +52,12 @@ function winCondition(){
     const board = boardFunc.getBoard();
 
     //testing
-    boardFunc.updateBoard([0,0], 'o');
-    boardFunc.updateBoard([0,1], 'o');
-    boardFunc.updateBoard([0,2], 'o');
+    boardFunc.updateBoard([0,0], 'x');
+    boardFunc.updateBoard([1,0], 'x');
+    boardFunc.updateBoard([2,0], 'x');
 
     // if board[0][0] board[0][1] board[0][2] === 'x' or 'o' return token
-    function checkStraights(){
+    const checkStraights = (function(){
         let rows = [];
         let columns = [];
         let flag = false;
@@ -70,7 +70,7 @@ function winCondition(){
                 if (rows.every((token) => token === 'x') ||
                     rows.every((token) => token === 'o')){
                     flag = true;
-                    const winningRow = `Row ${i+1}`;
+                    const winningRow = i;
                     const winningToken = board[i][0];
 
                     console.log(rows);
@@ -82,7 +82,7 @@ function winCondition(){
                 (columns.every((token) => token === 'x') ||
                 columns.every((token) => token === 'o')){
                     flag = true;
-                    const winningColumn = `Column ${i+1}`;
+                    const winningColumn = i;
                     const winningToken = board[i][0];
                     // console.log(columns);
 
@@ -92,30 +92,8 @@ function winCondition(){
                 }
             };
         };
-    };        
+    })();
 
-    // function checkColumns(){
-    //     let columns = [];
-    //     let flag = false;
-
-    //     while(flag === false)
-    //         {for(let i=0; i<3; i++){
-    //             columns.push(board[0][i], board[1][i], board[2][i]);
-
-    //             if (columns.every((token) => token === 'x') ||
-    //             columns.every((token) => token === 'o')){
-    //                 flag = true;
-    //                 const winningColumn = `Column ${i+1}`;
-    //                 const winningToken = board[i][0];
-    //                 console.log(columns);
-    //                 return {winningColumn, winningToken};
-
-    //             } else {
-    //                 columns = [];
-    //             }
-    //         };
-    //     };
-    // };
 
     // function checkDiagonals(){
         // let diagonals = [];
@@ -139,8 +117,6 @@ function winCondition(){
         //     };
         // };
     // };
-    // checkColumns();
-    checkStraights();
 
     return {checkStraights};
 };
