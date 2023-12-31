@@ -53,7 +53,7 @@ function winCondition(){
 
     //debugging
     boardFunc.updateBoard([0,0], 'x');
-    boardFunc.updateBoard([1,0], 'x');
+    boardFunc.updateBoard([1,1], 'x');
     boardFunc.updateBoard([2,2], 'x');
 
     // if board[0][0] board[0][1] board[0][2] === 'x' or 'o' return token
@@ -62,28 +62,23 @@ function winCondition(){
         let columns = [];
         let flag = false;
 
-        while(flag === false)
         {for(let i=0; i<3; i++){
             rows.push(board[i][0], board[i][1], board[i][2]);
             columns.push(board[0][i], board[1][i], board[2][i]);
 
             if (rows.every((token) => token === 'x') ||
                 rows.every((token) => token === 'o')){
-                flag = true;
+
                 const winningRow = i;
                 const winningToken = board[i][0];
-
-                console.log(rows);
 
                 return {winningRow, winningToken};
 
             } else if (columns.every((token) => token === 'x') ||
                         columns.every((token) => token === 'o')){
 
-                flag = true;
                 const winningColumn = i;
                 const winningToken = board[i][0];
-                // console.log(columns);
 
                 return {winningColumn, winningToken};
             }};
@@ -93,25 +88,26 @@ function winCondition(){
 
     const checkDiagonals = (function(){
         const diagonal01 = [board[0][0], board[1][1], board[2][2]];
-        const diagonal02 = [board[0][2], board[1][1], board[2][0]];       
+        const diagonal02 = [board[0][2], board[1][1], board[2][0]];    
 
-        if (diagonal01.every((token)=>{token === 'x' || token === 'o'})){
-
+        if (diagonal01.every((token) => token === 'x') || 
+            diagonal01.every((token) => token === 'o') ){
             const winningDiag01 = [0, 1, 2];
             const winningToken = [board[0][0]];
-
-
             return {winningDiag01, winningToken}
 
-        } else if (diagonal02.every((token)=>{token === 'x' || token === 'o'})){
-            const winningDiag02 = [2, 1, 0];
-            const winningToken = [board[0][2]];
-
-            return {winningDiag02, winningToken}
+        } else if (diagonal02.every((token)=>token === 'x') ||
+                    diagonal02.every((token) => token === 'o')){
+                        const winningDiag02 = [2, 1, 0];
+                        const winningToken = [board[1][1]];
+                        return {winningDiag02, winningToken}  
+        } else {
+         return "Nothing"
         }
     })();
 
-    return {checkStraights, checkDiagonals}
+    console.log(checkDiagonals);
+    // return {checkStraights, checkDiagonals}
 };
 
 console.log(winCondition());
