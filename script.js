@@ -46,9 +46,9 @@ function player(name){
 };
 
 
-function winCondition(updatedBoard){
+function winCondition(){
     const boardFunc = gameBoard();
-    const board = boardFunc.updateBoard;
+    const board = boardFunc.getBoard();
 
     // //debugging
     // boardFunc.updateBoard([0,0], 'o');
@@ -73,6 +73,8 @@ function winCondition(updatedBoard){
                         columns.every((token) => token === 'o')){
 
                 return true;
+            } else {
+                return false;
             }};
         };
     })();
@@ -95,7 +97,8 @@ function winCondition(updatedBoard){
             // const winningToken = [board[1][1]];
 
             return true; 
-        };
+        } else {
+            return false};
     })();
 
     console.log(checkDiagonals, checkStraights);
@@ -129,13 +132,12 @@ function gameController(){
             player1Selection = prompt('');
             turns += 1;
         // play(player1, playerSelection);
-        let updatedBoad = board.updateBoard(player1Selection, player1.token);
-        winCondition(updatedBoad);
+        board.updateBoard(player1Selection, player1.token);
         console.log(board.getBoard(), turns);
         } if (turns >= 4){
-            return "Out of turns"          
+            return "Out of turns";          
         };
     };
 };
 
-console.log(gameController());
+gameController();
