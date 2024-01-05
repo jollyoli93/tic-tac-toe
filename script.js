@@ -46,14 +46,14 @@ function player(name){
 };
 
 
-function winCondition(){
+function winCondition(updatedBoard){
     const boardFunc = gameBoard();
-    const board = boardFunc.getBoard();
+    const board = boardFunc.updateBoard;
 
-    //debugging
-    boardFunc.updateBoard([0,0], 'o');
-    boardFunc.updateBoard([0,1], 'x');
-    boardFunc.updateBoard([0,2], 'x');
+    // //debugging
+    // boardFunc.updateBoard([0,0], 'o');
+    // boardFunc.updateBoard([0,1], 'x');
+    // boardFunc.updateBoard([0,2], 'x');
 
     // if board[0][0] board[0][1] board[0][2] === 'x' or 'o' return token
     const checkStraights = (function(){
@@ -84,19 +84,21 @@ function winCondition(){
 
         if (diagonal01.every((token) => token === 'x') || 
             diagonal01.every((token) => token === 'o') ){
-            const winningDiag01 = [0, 1, 2];
-            const winningToken = [board[0][0]];
+            // const winningDiag01 = [0, 1, 2];
+            // const winningToken = [board[0][0]];
 
             return true;
 
         } else if (diagonal02.every((token)=>token === 'x') ||
                     diagonal02.every((token) => token === 'o')){
-            const winningDiag02 = [2, 1, 0];
-            const winningToken = [board[1][1]];
+            // const winningDiag02 = [2, 1, 0];
+            // const winningToken = [board[1][1]];
 
             return true; 
         };
     })();
+
+    console.log(checkDiagonals, checkStraights);
 
     // logic to return the winning move
     return checkDiagonals ? true
@@ -111,22 +113,29 @@ function gameController(){
     const player2 = player()[1];
     const board = gameBoard();
 
-    // player1 goes first
-    // while game not won then update play this function to update board.upadteBoard()
-    function play(player, selection){    
-        board.updateBoard(selection, player.token)
+    // // player1 goes first
+    // // while game not won then update play this function to update board.upadteBoard()
+    // function play(player, selection){    
+    //     board.updateBoard(selection, player.token)
+    // };
+
+    let player1Selection = '';
+
+    let win = true;
+    let turns = 0;
+
+    while(win){
+        if(winCondition()===false){
+            player1Selection = prompt('');
+            turns += 1;
+        // play(player1, playerSelection);
+        let updatedBoad = board.updateBoard(player1Selection, player1.token);
+        winCondition(updatedBoad);
+        console.log(board.getBoard(), turns);
+        } if (turns >= 4){
+            return "Out of turns"          
+        };
     };
-
-    while(winCondition() === false){
-        winCondition();
-
-        let playerSelection = prompt('enter a token');
-        play(player1, playerSelection);
-
-        return console.log(board.getBoard())
-    };
-
-
 };
 
-gameController();
+console.log(gameController());
