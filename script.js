@@ -11,19 +11,18 @@ function gameBoard(){
     };
 
     const updateBoard = (index, token)=>{
-
-
         let [i,j] = index;
-        //
-        // check if game is not won
-            if( board[i][j] === ""){
-                board[i][j] = token;
-            };
-        // } else {
-        //     return `${token} wins`
-        // };
 
-        return board;
+        if( i<3 && j<3 &&
+            board[i][j] === ""){
+            board[i][j] = token;
+            return board;
+        };
+        if (winCondition === true) {
+            return token;
+        } else {
+            return 'Pick again'
+        };
     };
 
     const getBoard = ()=> board;
@@ -133,8 +132,10 @@ function gameController(){
     while(win){
         player1Selection = prompt('enter');
         newBoard = board.updateBoard(player1Selection, player1.token);
+
         if (winCondition(newBoard)===true){
             win = false;
+            console.log(newBoard);
         }
         else if (turns >=4){
             return "Out of turns";          
@@ -145,5 +146,4 @@ function gameController(){
     };
 
 };  
-
 gameController();
