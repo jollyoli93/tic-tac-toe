@@ -11,15 +11,17 @@ function gameBoard(){
     };
 
     const updateBoard = (index, token)=>{
+
+
         let [i,j] = index;
+        //
         // check if game is not won
-        if (winCondition() === false){
             if( board[i][j] === ""){
                 board[i][j] = token;
             };
-        } else {
-            return `${token} wins`
-        };
+        // } else {
+        //     return `${token} wins`
+        // };
 
         return board;
     };
@@ -50,11 +52,7 @@ function player(name){
 };
 
 
-function winCondition(){
-    const boardFunc = gameBoard();
-    // const board = boardFunc.getBoard();
-    const board = board2;
-
+function winCondition(board){
     // //debugging
     // boardFunc.updateBoard([0,0], 'o');
     // boardFunc.updateBoard([0,1], 'x');
@@ -133,14 +131,19 @@ function gameController(){
     let turns = 0;
 
     while(win){
-        board.updateBoard(player1Selection, player1.token);
-        console.log(board.getBoard(), turns);
-
-        if (turns >= 4){
+        player1Selection = prompt('enter');
+        newBoard = board.updateBoard(player1Selection, player1.token);
+        if (winCondition(newBoard)===true){
+            win = false;
+        }
+        else if (turns >=4){
             return "Out of turns";          
+        }
+        else {
+            continue;
         };
     };
 
-};
+};  
 
-//gameController();
+gameController();
