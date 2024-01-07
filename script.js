@@ -13,8 +13,7 @@ function gameBoard(){
     const updateBoard = (index, token)=>{
         let [i,j] = index;
 
-        if( i<3 && j<3 &&
-            board[i][j] === ""){
+        if( board[i][j] === ""){
             board[i][j] = token;
             return board;
         } else {
@@ -100,9 +99,6 @@ function winCondition(board){
             return false};
     })();
 
-    console.log(checkDiagonals, checkStraights);
-
-    // logic to return the winning move
     return checkDiagonals ? true
         :checkStraights ? true
         : false;
@@ -117,31 +113,36 @@ function gameController(){
 
     // // player1 goes first
     // // while game not won then update play this function to update board.upadteBoard()
-    // function play(player, selection){    
-    //     board.updateBoard(selection, player.token)
-    // };
+    function play(){    
+        if (winCondition(newBoard)===true){
+            win = false;
+            return player1.token;
+        }
+        else if (turns >=4){
+            return "Out of turns";          
+        } else {
+            turns += 1;
+        }
+    };
 
     let player1Selection = '';
 
     let win = true;
     let turns = 0;
+    let winner = '';
 
     while(win){
         player1Selection = prompt('enter');
         newBoard = board.updateBoard(player1Selection, player1.token);
 
         if(newBoard != false){
-            if (winCondition(newBoard)===true){
-            win = false;
-            console.log(player1.token);
-            }
-            else if (turns >=4){
-                return "Out of turns";          
-            }
-            else {
-                continue;
-            };}
+            winner = play();
+        } else {
+            winner = "Try again";
+        }
     };
+    return `The winner is ${winner}`;
 
+    // return message;
 };  
-gameController();
+console.log(gameController());
