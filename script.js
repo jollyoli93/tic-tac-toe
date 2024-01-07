@@ -27,7 +27,7 @@ function gameBoard(){
 };
 
 
-function player(name){
+function player(){
     const player1 = "Player One";
     const player2 = "Player Two";
 
@@ -107,9 +107,10 @@ function winCondition(board){
 
 
 function gameController(){
-    const player1 = player()[0];
-    const player2 = player()[1];
+    // const player1 = player()[0];
+    // const player2 = player()[1];
     const board = gameBoard();
+    const players = player();
 
     // // player1 goes first
     // // while game not won then update play this function to update board.upadteBoard()
@@ -117,8 +118,7 @@ function gameController(){
         if (winCondition(newBoard)===true){
             win = false;
             return player1.token;
-        }
-        else if (turns >=4){
+        } else if (turns >=9){
             return "Out of turns";          
         } else {
             turns += 1;
@@ -131,18 +131,36 @@ function gameController(){
     let turns = 0;
     let winner = '';
 
+    // while(win){
+
+    //     player1Selection = prompt('enter');
+    //     newBoard = board.updateBoard(player1Selection, player1.token);
+
+    //     if(newBoard != false){
+    //         winner = play();
+    //     } else {
+    //         alert('Try again');
+    //     }
+    // };
+    // return `The winner is ${winner}`;
+
+    //try with player loop
     while(win){
-        player1Selection = prompt('enter');
-        newBoard = board.updateBoard(player1Selection, player1.token);
+        players.forEach((person)=>{
+            playerSelection = prompt('enter');
+            newBoard = board.updateBoard(playerSelection, person.token);
+            console.log(newBoard);
+            console.log(person.token);
 
-        if(newBoard != false){
-            winner = play();
-        } else {
-            winner = "Try again";
-        }
+            if(newBoard != false){
+                play();
+            } else {
+                //Disable tile in UI
+                alert('WRONG!');
+            };
+        });
+
     };
-    return `The winner is ${winner}`;
-
-    // return message;
 };  
+
 console.log(gameController());
