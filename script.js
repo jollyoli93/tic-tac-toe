@@ -17,11 +17,8 @@ function gameBoard(){
             board[i][j] === ""){
             board[i][j] = token;
             return board;
-        };
-        if (winCondition === true) {
-            return token;
         } else {
-            return 'Pick again'
+            return false;
         };
     };
 
@@ -133,16 +130,17 @@ function gameController(){
         player1Selection = prompt('enter');
         newBoard = board.updateBoard(player1Selection, player1.token);
 
-        if (winCondition(newBoard)===true){
+        if(newBoard != false){
+            if (winCondition(newBoard)===true){
             win = false;
-            console.log(newBoard);
-        }
-        else if (turns >=4){
-            return "Out of turns";          
-        }
-        else {
-            continue;
-        };
+            console.log(player1.token);
+            }
+            else if (turns >=4){
+                return "Out of turns";          
+            }
+            else {
+                continue;
+            };}
     };
 
 };  
