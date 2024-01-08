@@ -99,10 +99,24 @@ function winCondition(board){
             return false};
     })();
 
+    const checkDraw = function(){
+
+        //if every row/col is not '' and every row col === 'x' || 'o' is false    
+        //return draw   
+    }   
+
+    //if checkDraw is false
+    //  checkDiagonals/checkStaights
+    // if true
+    //  return Alert(its a draw);
+
+
     return checkDiagonals ? true
         :checkStraights ? true
         : false;
 };
+
+
 
 
 
@@ -114,25 +128,21 @@ function gameController(){
 
     // // player1 goes first
     // // while game not won then update play this function to update board.upadteBoard()
-    function play(){    
+    function play(person){    
         if (winCondition(newBoard)===true){
             win = false;
-            return player1.token;
-        } else if (turns >=9){
+            return person.token;
+        } else if (turns >9){
             return "Out of turns";          
         } else {
             turns += 1;
         }
     };
 
-    let player1Selection = '';
-
-    let win = true;
     let turns = 0;
-    let winner = '';
+    let win = true;
 
     // while(win){
-
     //     player1Selection = prompt('enter');
     //     newBoard = board.updateBoard(player1Selection, player1.token);
 
@@ -145,23 +155,36 @@ function gameController(){
     // return `The winner is ${winner}`;
 
     //try with player loop
-    while(win){
-        players.forEach((person)=>{
+    while(win){        
+        for(let person of players){
             playerSelection = prompt('enter');
             newBoard = board.updateBoard(playerSelection, person.token);
             console.log(newBoard);
-            console.log(person.token);
+            console.log(person.token, turns);
 
             //check if tile has been selected
             if(newBoard != false){
-                play();
+                if (winCondition(newBoard)===true){
+                    person.score += 1;
+                    console.log(win, person.score);
+                    return win = false;
+                } else if (turns >9){
+                    return "Out of turns";          
+                } else {
+                    turns += 1;
+                };
             } else {
                 //Not needed in UI
                 alert('WRONG!');
             };
-        });
+
+        };
+
+        console.log(win);
 
     };
+
+    console.log(win);
 };  
 
 console.log(gameController());
