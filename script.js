@@ -117,74 +117,41 @@ function winCondition(board){
 };
 
 
-
-
-
 function gameController(){
     // const player1 = player()[0];
     // const player2 = player()[1];
     const board = gameBoard();
     const players = player();
 
-    // // player1 goes first
-    // // while game not won then update play this function to update board.upadteBoard()
-    function play(person){    
-        if (winCondition(newBoard)===true){
-            win = false;
-            return person.token;
-        } else if (turns >9){
-            return "Out of turns";          
-        } else {
-            turns += 1;
-        }
-    };
-
     let turns = 0;
     let win = true;
-
-    // while(win){
-    //     player1Selection = prompt('enter');
-    //     newBoard = board.updateBoard(player1Selection, player1.token);
-
-    //     if(newBoard != false){
-    //         winner = play();
-    //     } else {
-    //         alert('Try again');
-    //     }
-    // };
-    // return `The winner is ${winner}`;
+    let winMessage = '';
 
     //try with player loop
     while(win){        
         for(let person of players){
             playerSelection = prompt('enter');
             newBoard = board.updateBoard(playerSelection, person.token);
-            console.log(newBoard);
-            console.log(person.token, turns);
 
-            //check if tile has been selected
-            if(newBoard != false){
-                if (winCondition(newBoard)===true){
-                    person.score += 1;
-                    console.log(win, person.score);
-                    return win = false;
-                } else if (turns >9){
-                    return "Out of turns";          
-                } else {
-                    turns += 1;
-                };
+            if (winCondition(newBoard)===true){
+                person.score += 1;
+                win = false;
+                winMessage = `The winner is ${person.token}`;
+
+                return winMessage;
+
+            } else if(turns >= 8){
+                win=false;
+                winMessage = "It's a Draw";
+
+                return winMessage;     
+
             } else {
-                //Not needed in UI
-                alert('WRONG!');
+                turns += 1;
             };
-
         };
-
-        console.log(win);
-
     };
-
-    console.log(win);
+    return winMessage;
 };  
 
 console.log(gameController());
