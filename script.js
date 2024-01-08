@@ -152,10 +152,11 @@ function gameController(){
             console.log(newBoard);
             console.log(person.token);
 
+            //check if tile has been selected
             if(newBoard != false){
                 play();
             } else {
-                //Disable tile in UI
+                //Not needed in UI
                 alert('WRONG!');
             };
         });
