@@ -84,32 +84,16 @@ function winCondition(board){
 
         if (diagonal01.every((token) => token === 'x') || 
             diagonal01.every((token) => token === 'o') ){
-            // const winningDiag01 = [0, 1, 2];
-            // const winningToken = [board[0][0]];
 
             return true;
 
         } else if (diagonal02.every((token)=>token === 'x') ||
                     diagonal02.every((token) => token === 'o')){
-            // const winningDiag02 = [2, 1, 0];
-            // const winningToken = [board[1][1]];
 
             return true; 
         } else {
             return false};
     })();
-
-    const checkDraw = function(){
-
-        //if every row/col is not '' and every row col === 'x' || 'o' is false    
-        //return draw   
-    }   
-
-    //if checkDraw is false
-    //  checkDiagonals/checkStaights
-    // if true
-    //  return Alert(its a draw);
-
 
     return checkDiagonals ? true
         :checkStraights ? true
@@ -118,30 +102,27 @@ function winCondition(board){
 
 
 function gameController(){
-    // const player1 = player()[0];
-    // const player2 = player()[1];
     const board = gameBoard();
     const players = player();
 
     let turns = 0;
-    let win = true;
+    let playerWon = false;
     let winMessage = '';
 
-    //try with player loop
-    while(win){        
+    while(playerWon === false){        
         for(let person of players){
             playerSelection = prompt('enter');
             newBoard = board.updateBoard(playerSelection, person.token);
 
             if (winCondition(newBoard)===true){
                 person.score += 1;
-                win = false;
+                playerWon = true;
                 winMessage = `The winner is ${person.token}`;
 
                 return winMessage;
 
             } else if(turns >= 8){
-                win=false;
+                playerWon = true;
                 winMessage = "It's a Draw";
 
                 return winMessage;     
