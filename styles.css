@@ -1,0 +1,29 @@
+body, html {
+    
+    margin: 0;
+    padding: 0;
+    font-family: 'lato', sans-serif;
+    height: 100vh;
+    width: 100%;
+
+}
+
+.container {
+    border: solid black 1px;
+    height: 500px;
+    width: 500px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+};
+
+.board{
+    background-color: #444;
+    text-align: center;
+    color: #ddd;
+    font-family: sans-serif;
+    font-size: 1.5rem;
+    padding: 12px;
+};

@@ -1,3 +1,16 @@
+const container = document.querySelector('.container');
+
+// //Set up board in DOM
+// for(let i=0; i<9; i++){
+//     const square = document.createElement('div');
+//     square.setAttribute("class", 'board');
+//     square.setAttribute("value", `${i}`);
+
+//     square.textContent = `${i}`
+
+//     container.appendChild(square);
+// };
+
 function gameBoard(){
     // 3 x 3 square 
     const size = 3;
@@ -48,12 +61,6 @@ function player(){
 
 
 function winCondition(board){
-    // //debugging
-    // boardFunc.updateBoard([0,0], 'o');
-    // boardFunc.updateBoard([0,1], 'x');
-    // boardFunc.updateBoard([0,2], 'x');
-
-    // if board[0][0] board[0][1] board[0][2] === 'x' or 'o' return token
     const checkStraights = (function(){
         let rows = [];
         let columns = [];
@@ -111,7 +118,9 @@ function gameController(){
 
     while(playerWon === false){        
         for(let person of players){
-            playerSelection = prompt('enter');
+
+            //debugging
+            // playerSelection = prompt('enter');
             newBoard = board.updateBoard(playerSelection, person.token);
 
             if (winCondition(newBoard)===true){
@@ -135,4 +144,3 @@ function gameController(){
     return winMessage;
 };  
 
-console.log(gameController());
