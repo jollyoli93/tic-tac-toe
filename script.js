@@ -1,15 +1,14 @@
 const container = document.querySelector('.container');
 
-// //Set up board in DOM
-// for(let i=0; i<9; i++){
-//     const square = document.createElement('div');
-//     square.setAttribute("class", 'board');
-//     square.setAttribute("value", `${i}`);
+//Set up board in DOM
+for(let i=0; i<3; i++){
+    for(let j=0; j<3; j++){const board = document.createElement('div');
+        board.setAttribute("class", 'board');
+        board.setAttribute("value", `${i}${j}`);
+        board.textContent = `X`;
 
-//     square.textContent = `${i}`
-
-//     container.appendChild(square);
-// };
+        container.appendChild(board);}
+};
 
 function gameBoard(){
     // 3 x 3 square 
@@ -121,7 +120,8 @@ function gameController(){
 
             //debugging
             // playerSelection = prompt('enter');
-            newBoard = board.updateBoard(playerSelection, person.token);
+            // newBoard = board.updateBoard(playerSelection, person.token);
+            updateVisual(person.token);
 
             if (winCondition(newBoard)===true){
                 person.score += 1;
@@ -144,3 +144,32 @@ function gameController(){
     return winMessage;
 };  
 
+const board = document.querySelectorAll('.board');
+
+// function updateVisual(token){
+//     board.forEach((square)=>{
+//         square.addEventListener("click", ()=>{
+//             square.textContent = token;
+//         })
+//     })
+// };
+
+function updateVisual(token){
+    let game = gameBoard();
+
+    for(let square of board){
+        square.addEventListener("click", ()=>{
+            square.textContent = token;
+            coord = square.getAttribute("value")
+            let newBoard = game.updateBoard(coord, token);
+        });
+    }
+};
+
+updateVisual("O")
+// console.log(gameBoard().getBoard())
+// gameController();
+
+// for (let square of board){
+//     console.log(square.target.value)
+// }

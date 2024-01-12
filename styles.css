@@ -5,25 +5,19 @@ body, html {
     font-family: 'lato', sans-serif;
     height: 100vh;
     width: 100%;
+    margin-left: 10vw;
 
 }
 
 .container {
     border: solid black 1px;
+    background-color: aliceblue;
     height: 500px;
     width: 500px;
+    font-size: 100px;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr 1fr;
     justify-items: center;
     align-items: center;
-};
-
-.board{
-    background-color: #444;
-    text-align: center;
-    color: #ddd;
-    font-family: sans-serif;
-    font-size: 1.5rem;
-    padding: 12px;
 };
