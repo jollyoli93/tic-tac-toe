@@ -26,20 +26,9 @@ const startGame = function(){
             }
         };
 
-        const updateBoard = (index, token)=>{
-            let [i,j] = index;
-
-            if( board[i][j] === ""){
-                board[i][j] = token;
-                return board;
-            } else {
-                return false;
-            };
-        };
-
         const getBoard = ()=> board;
 
-        return {getBoard, updateBoard};
+        return getBoard;
     };
 
 
@@ -71,7 +60,10 @@ const startGame = function(){
         return "It's a draw"
     };
 
-    function winCondition(board){
+
+    function winCondition(index, token){
+        const board = gameBoard().getBoard;
+
         const checkStraights = function(){
             let rows = [];
             let columns = [];
@@ -117,67 +109,37 @@ const startGame = function(){
                 return false};
         };
 
-        if (gameBoard === true){
-            checkDiagonals()
-            checkStraights()
-            //etc
-        } else if (turns === 9 && gameBoard === false){
-
-        }
-
-
-    };
-
-
-    function gameController(){
-        const board = gameBoard();
-        const players = player();
-
-        let turns = 0;
-        let playerWon = false;
-        let winMessage = '';
-
-        while(playerWon === false){        
-            for(let person of players){
-
-                //debugging
-                // playerSelection = prompt('enter');
-                // newBoard = board.updateBoard(playerSelection, person.token);
-                updateVisual(person.token);
-
-                if (winCondition(newBoard)===true){
-                    person.score += 1;
-                    playerWon = true;
-                    winMessage = `The winner is ${person.token}`;
-
-                    return winMessage;
-
-                } else if(turns >= 8){
-                    playerWon = true;
-                    winMessage = "It's a Draw";
-
-                    return winMessage;     
-
-                } else {
-                    turns += 1;
-                };
+        const updateBoard = (token, ...index)=>{
+            let i,j = index;
+            if( board[i][j] === ""){
+                board[i][j] = token;
+                return board;
             };
         };
-        return winMessage;
-    };  
+        
+        if (gameBoard === true){
+            return declareWinner();
+        }
+        else if(!gameBoard){
+            checkDiagonals();
+            checkStraights();
+        }
+        else if (turns === 9 && !gameBoard){
+            return declareDraw();
+        }
+        else {
+            updateBoard(index, token);
+            turns += 1;
+        };
 
-    const board = document.querySelectorAll('.board');
+        console.log(board.getBoard(), checkStraights(), checkDiagonals());
+    
+    }
 
-    // function updateVisual(token){
-    //     board.forEach((square)=>{
-    //         square.addEventListener("click", ()=>{
-    //             square.textContent = token;
-    //         })
-    //     })
-    // };
 
     function updateVisual(token){
         let game = gameBoard();
+        const board = document.querySelectorAll('.board');
 
         for(let square of board){
             square.addEventListener("click", ()=>{
@@ -185,14 +147,14 @@ const startGame = function(){
                 coord = square.getAttribute("value")
                 let newBoard = game.updateBoard(coord, token);
             });
-        }
+        }};
+
+
+    function gamePlay(){
+        winCondition('x', '10');
     };
 
-    updateVisual("O")
-    // console.log(gameBoard().getBoard())
-    // gameController();
+    gamePlay();
 
-    // for (let square of board){
-    //     console.log(square.target.value)
-    // }
+
 }();
