@@ -1,11 +1,13 @@
 const container = document.querySelector('.container');
+let gameOver = false;
+let turns = 0;
 
 //Set up board in DOM
 for(let i=0; i<3; i++){
     for(let j=0; j<3; j++){const board = document.createElement('div');
         board.setAttribute("class", 'board');
         board.setAttribute("value", `${i}${j}`);
-        board.textContent = `X`;
+        board.textContent = `o`;
 
         container.appendChild(board);}
 };
@@ -70,13 +72,14 @@ function winCondition(board){
 
             if (rows.every((token) => token === 'x') ||
                 rows.every((token) => token === 'o')){
-
-                return true;
+                    gameOver = true;
+                return "rows";
 
             } else if (columns.every((token) => token === 'x') ||
                         columns.every((token) => token === 'o')){
-
-                return true;
+                    
+                            gameOver = true;
+                return "col";
             } else {
                 return false;
             }};
@@ -90,69 +93,59 @@ function winCondition(board){
 
         if (diagonal01.every((token) => token === 'x') || 
             diagonal01.every((token) => token === 'o') ){
-
-            return true;
+                gameOver = true;
+            return "diag 1";
 
         } else if (diagonal02.every((token)=>token === 'x') ||
                     diagonal02.every((token) => token === 'o')){
-
-            return true; 
+                        gameOver = true;
+            return "Diags 2"; 
         } else {
             return false};
     })();
 
-    return checkDiagonals ? true
-        :checkStraights ? true
-        : false;
+
 };
 
 
 function gameController(){
+    const boardVisual = document.querySelectorAll('.board');
     const board = gameBoard();
-    const players = player();
+    const player1 = player()[0];
+    const player2 = player()[1];
 
-    let turns = 0;
-    let playerWon = false;
-    let winMessage = '';
 
-    while(playerWon === false){        
-        for(let person of players){
+    //player 1 turn
+    if (turns % 2 === 0 && !gameOver){
+        for(let square of boardVisual){
+            square.addEventListener("click", ()=>{
+                coords = square.getAttribute("value")
+                square.textContent = player1.token;
+                newBoard = board.updateBoard(coords, player1.token);
+                winCondition(newBoard);
+                console.log(gameOver, newBoard)
+            }
+        )}
+    }
 
-            //debugging
-            // playerSelection = prompt('enter');
-            // newBoard = board.updateBoard(playerSelection, person.token);
-            updateVisual(person.token);
+    // if (gameOver){
+    //     player1.score += 1;
+    //     winMessage = `The winner is ${player1.token}`;
 
-            if (winCondition(newBoard)===true){
-                person.score += 1;
-                playerWon = true;
-                winMessage = `The winner is ${person.token}`;
+    //     return winMessage;
 
-                return winMessage;
+    // } else if(!gameOver && turns >= 8){
+    //     winMessage = "It's a Draw";
 
-            } else if(turns >= 8){
-                playerWon = true;
-                winMessage = "It's a Draw";
+    //     return winMessage;     
 
-                return winMessage;     
-
-            } else {
-                turns += 1;
-            };
-        };
-    };
-    return winMessage;
-};  
-
-const board = document.querySelectorAll('.board');
-
-// function updateVisual(token){
-//     board.forEach((square)=>{
-//         square.addEventListener("click", ()=>{
-//             square.textContent = token;
-//         })
-//     })
-// };
+    // } else {
+    //     updateVisual(player1.token);
+    //     console.log(board);
+    //     console.log(gameOver);
+    //     turns += 1;
+    // };
+};
 
 function updateVisual(token){
     let game = gameBoard();
@@ -162,14 +155,10 @@ function updateVisual(token){
             square.textContent = token;
             coord = square.getAttribute("value")
             let newBoard = game.updateBoard(coord, token);
+            winCondition(newBoard);
+            console.log(newBoard);
         });
     }
 };
 
-updateVisual("O")
-// console.log(gameBoard().getBoard())
-// gameController();
-
-// for (let square of board){
-//     console.log(square.target.value)
-// }
+gameController();
