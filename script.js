@@ -99,7 +99,7 @@ function winCondition(board){
             diagonal01.every((token) => token === 'o') ){
             gameOver = true;
 
-        } else if (diagonal02.every((token)=>token === 'x') ||
+        } if (diagonal02.every((token)=>token === 'x') ||
                     diagonal02.every((token) => token === 'o')){
             gameOver = true;
 
