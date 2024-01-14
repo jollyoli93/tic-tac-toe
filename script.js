@@ -1,15 +1,19 @@
 const container = document.querySelector('.container');
+const resetBtn = document.querySelector('#resetBtn')
+const winner = document.querySelector('#winner');
+const player1score = document.getElementById('player1-score');
+const player2score = document.getElementById('player2-score');
 let gameOver = false;
-let turns = 0;
 
-//Set up board in DOM
-for(let i=0; i<3; i++){
-    for(let j=0; j<3; j++){const board = document.createElement('div');
+function boardDisplay(){for(let i=0; i<3; i++){
+    for(let j=0; j<3; j++){
+        const board = document.createElement('div');
         board.setAttribute("class", 'board');
         board.setAttribute("value", `${i}${j}`);
-        board.textContent = `o`;
+         board.textContent = ".";
 
-        container.appendChild(board);}
+        container.appendChild(board);
+    }}
 };
 
 function gameBoard(){
@@ -42,8 +46,8 @@ function gameBoard(){
 
 
 function player(){
-    const player1 = "Player One";
-    const player2 = "Player Two";
+    const player1 = "X";
+    const player2 = "O";
 
     const players = [
         {
@@ -72,14 +76,14 @@ function winCondition(board){
 
             if (rows.every((token) => token === 'x') ||
                 rows.every((token) => token === 'o')){
-                    gameOver = true;
-                return "rows";
+                gameOver = true;
+
 
             } else if (columns.every((token) => token === 'x') ||
                         columns.every((token) => token === 'o')){
                     
-                            gameOver = true;
-                return "col";
+                gameOver = true;
+
             } else {
                 return false;
             }};
@@ -93,13 +97,12 @@ function winCondition(board){
 
         if (diagonal01.every((token) => token === 'x') || 
             diagonal01.every((token) => token === 'o') ){
-                gameOver = true;
-            return "diag 1";
+            gameOver = true;
 
         } else if (diagonal02.every((token)=>token === 'x') ||
                     diagonal02.every((token) => token === 'o')){
-                        gameOver = true;
-            return "Diags 2"; 
+            gameOver = true;
+
         } else {
             return false};
     })();
@@ -113,52 +116,65 @@ function gameController(){
     const board = gameBoard();
     const player1 = player()[0];
     const player2 = player()[1];
+    player1score.textContent = player1.score;
+    player2score.textContent = player2.score;
+
+    let turns = 0;
+    currentPlayer = player1;
 
 
-    //player 1 turn
-    if (turns % 2 === 0 && !gameOver){
-        for(let square of boardVisual){
-            square.addEventListener("click", ()=>{
-                coords = square.getAttribute("value")
-                square.textContent = player1.token;
-                newBoard = board.updateBoard(coords, player1.token);
-                winCondition(newBoard);
-                console.log(gameOver, newBoard)
+    function initializeGame(){
+        boardVisual.forEach(square => square.addEventListener("click", squareClicked))
+        resetBtn.addEventListener("click", resetBoard)
+        winner.textContent = `${currentPlayer.name}'s Turns`
+    };
+
+    function squareClicked(){
+        const coords = this.getAttribute("value")
+        this.textContent = currentPlayer.token;
+        let newBoard = board.updateBoard(coords, currentPlayer.token);
+        winCondition(newBoard);
+        console.log(gameOver);
+        checkWinner();
+    };
+
+    function changePlayer(){
+        if(currentPlayer === player1){
+            currentPlayer = player2;
+        } else {
+            currentPlayer = player1;
+        }
+    };
+
+    function checkWinner(){
+        if (gameOver){
+            winner.textContent = `${currentPlayer.name} is the winner!`
+            currentPlayer.score += 1;
+        } else if (turns === 8){
+            winner.textContent = "it's a draw"
+        } else {
+            changePlayer();
+            winner.textContent = `${currentPlayer.name}'s Turns`;
+            turns += 1;
+        }
+    }
+
+    function resetBoard(){
+        const board = gameBoard().getBoard();
+        const boardVisual = document.querySelector('.board');
+
+        for (let i=0; i<3; i++){
+            board[i] = [];
+            for (let j=0; j<3; j++){
+                board[i].push(".")
+                board.textContent = ".";
             }
-        )}
+        };
     }
 
-    // if (gameOver){
-    //     player1.score += 1;
-    //     winMessage = `The winner is ${player1.token}`;
+    initializeGame();
 
-    //     return winMessage;
-
-    // } else if(!gameOver && turns >= 8){
-    //     winMessage = "It's a Draw";
-
-    //     return winMessage;     
-
-    // } else {
-    //     updateVisual(player1.token);
-    //     console.log(board);
-    //     console.log(gameOver);
-    //     turns += 1;
-    // };
 };
 
-function updateVisual(token){
-    let game = gameBoard();
-
-    for(let square of board){
-        square.addEventListener("click", ()=>{
-            square.textContent = token;
-            coord = square.getAttribute("value")
-            let newBoard = game.updateBoard(coord, token);
-            winCondition(newBoard);
-            console.log(newBoard);
-        });
-    }
-};
-
+boardDisplay();
 gameController();
