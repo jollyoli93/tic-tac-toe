@@ -5,16 +5,16 @@ const player1score = document.getElementById('player1-score');
 const player2score = document.getElementById('player2-score');
 let gameOver = false;
 
-function boardDisplay(){for(let i=0; i<3; i++){
-    for(let j=0; j<3; j++){
-        const board = document.createElement('div');
+const boardDisplay = function(){for(let i=0; i<3; i++){
+    for(let j=0; j<3; j++){const board = document.createElement('div');
         board.setAttribute("class", 'board');
         board.setAttribute("value", `${i}${j}`);
          board.textContent = ".";
 
         container.appendChild(board);
     }}
-};
+}();
+
 
 function gameBoard(){
     // 3 x 3 square 
@@ -79,7 +79,7 @@ function winCondition(board){
                 gameOver = true;
 
 
-            } else if (columns.every((token) => token === 'x') ||
+            } if (columns.every((token) => token === 'x') ||
                         columns.every((token) => token === 'o')){
                     
                 gameOver = true;
@@ -125,7 +125,7 @@ function gameController(){
 
     function initializeGame(){
         boardVisual.forEach(square => square.addEventListener("click", squareClicked))
-        resetBtn.addEventListener("click", resetBoard)
+        // resetBtn.addEventListener("click", resetButton)
         winner.textContent = `${currentPlayer.name}'s Turns`
     };
 
@@ -158,23 +158,20 @@ function gameController(){
             turns += 1;
         }
     }
+    
+    // function resetButton(){
+    //     for (let i=0; i<3; i++){
+    //         board[i] = [];
+    //         for (let j=0; j<3; j++){
+    //             board[i].push("")
+    //             boardVisual.textContent = "."
+    //         }
+    //     };
+    // }
 
-    function resetBoard(){
-        const board = gameBoard().getBoard();
-        const boardVisual = document.querySelector('.board');
-
-        for (let i=0; i<3; i++){
-            board[i] = [];
-            for (let j=0; j<3; j++){
-                board[i].push(".")
-                board.textContent = ".";
-            }
-        };
-    }
 
     initializeGame();
 
 };
 
-boardDisplay();
 gameController();
